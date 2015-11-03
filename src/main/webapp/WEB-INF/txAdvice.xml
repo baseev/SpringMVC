@@ -14,8 +14,8 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<context:component-scan base-package="com.baseev.test"/>
-	<context:component-scan base-package="com.baseev.test1">
+	<context:component-scan base-package="com.baseev.manager"/>
+	<context:component-scan base-package="com.baseev">
 		<context:exclude-filter type="regex" expression="com.baseev.test1.web.controller.*"/>
 	</context:component-scan>
 	
@@ -27,8 +27,8 @@
          p:nestedTransactionAllowed="true"/>
 
 	<aop:config>
-        	<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..company.manager.*Manager.*(..))" order="1"/>
-        	<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..contact.manager.*Manager.*(..))" order="2"/>
+        	<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..manager.*Manager.*(..))" order="1"/>
+        	<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..manager.*Manager.*(..))" order="2"/>
 	</aop:config>
 
 	<tx:advice id="txAdvice" transaction-manager="lf1MasterTxManager">

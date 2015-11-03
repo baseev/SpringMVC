@@ -1,6 +1,10 @@
 package com.baseev.web.controller;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
@@ -57,12 +61,14 @@ public class CustomerController {
         return view.getView();
     } 
     
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value="/search/{id}", method = RequestMethod.GET)
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value="/search", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView search(@RequestBody Customer customer, ModelMap model) {
+    public ModelAndView search(@PathVariable("id") Long id, ModelMap model) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<Customer> customers = customerManager.search(map);
         ViewHelper view = new ViewHelper();
         view.setStatus("success");
-        view.setData("Created a stack with size "+customer);
+        view.setData(customers);
         return view.getView();
     } 
         
@@ -72,7 +78,7 @@ public class CustomerController {
         boolean flag = customerManager.delete(id);
         ViewHelper view = new ViewHelper();
         view.setStatus("success");
-        view.setData("Created a stack with size "+id);
+        view.setData("Successfully deleted the id "+id);
         return view.getView();
     } 
     

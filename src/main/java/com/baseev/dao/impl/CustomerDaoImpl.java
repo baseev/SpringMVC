@@ -3,6 +3,7 @@ package com.baseev.dao.impl;
 import com.baseev.base.dao.impl.BaseDao;
 import com.baseev.dao.CustomerDao;
 
+
 public class CustomerDaoImpl 
     extends BaseDao 
     implements CustomerDao

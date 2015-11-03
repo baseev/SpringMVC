@@ -4,10 +4,15 @@ package com.baseev.manager.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.baseev.dao.CustomerDao;
 import com.baseev.manager.CustomerManager;
 import com.baseev.model.Customer;
 
+@Service(CustomerManager.BEAN_NAME)
 public class CustomerManagerImpl
     implements CustomerManager
 {
@@ -24,8 +29,8 @@ public class CustomerManagerImpl
     @Override
     public boolean update(Long id, Customer customer)
     {
-        // TODO Auto-generated method stub
-        return false;
+        int flag = customerDao.update(UPDATE, new Object[] { customer.getName(),customer.getCreated()});
+        return flag ==0 ? false : true;
     }
 
     @Override
@@ -50,5 +55,11 @@ public class CustomerManagerImpl
     }
     
     
+    @Resource(name = CustomerDao.BEAN_NAME)
+    public void setCustomerDao(
+            CustomerDao a_customerDao)
+    {
+        customerDao = a_customerDao;
+    }  
 
 }
