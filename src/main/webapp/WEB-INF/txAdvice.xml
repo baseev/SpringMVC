@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:component-scan base-package="com.baseev.test"/>
+	<context:component-scan base-package="com.baseev.test1">
+		<context:exclude-filter type="regex" expression="com.baseev.test1.web.controller.*"/>
+	</context:component-scan>
+	
+   	<context:annotation-config/>
+   	<tx:annotation-driven order="0"/>
+
+   	<bean id="lf1MasterTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+         p:sessionFactory-ref="lf1MasterSessionFactory"
+         p:nestedTransactionAllowed="true"/>
+
+	<aop:config>
+        	<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..company.manager.*Manager.*(..))" order="1"/>
+        	<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..contact.manager.*Manager.*(..))" order="2"/>
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="lf1MasterTxManager">
+		<tx:attributes>
+		    <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
+		    <tx:method name="find*" read-only="true" propagation="SUPPORTS"/>
+		    <tx:method name="search*" read-only="true" propagation="SUPPORTS"/>
+		    <tx:method name="remove*" propagation="SUPPORTS"/>
+		</tx:attributes>
+    	</tx:advice>
+</beans>
