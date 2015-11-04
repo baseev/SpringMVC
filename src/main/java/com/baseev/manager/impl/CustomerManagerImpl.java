@@ -1,6 +1,7 @@
 package com.baseev.manager.impl;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,36 +23,34 @@ public class CustomerManagerImpl
     @Override
     public Customer create(Customer customer)
     {
-        customerDao.create(INSERT, new Object[] { customer.getName(),customer.getCreated()});
+        customerDao.create(INSERT, new Object[] { customer.getName(), customer.getEmail(), customer.getCreated()});
         return customer;
     }
 
     @Override
     public boolean update(Long id, Customer customer)
     {
-        int flag = customerDao.update(UPDATE, new Object[] { customer.getName(),customer.getCreated()});
+        int flag = customerDao.update(UPDATE, new Object[] {customer.getName(), customer.getEmail(), new Date(), customer.getId()});
         return flag ==0 ? false : true;
     }
 
     @Override
-    public Customer read(Long id)
+    public Customer read(final Long id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return (Customer) customerDao.read(SELECT, new Object[] {id});
     }
 
     @Override
     public List<Customer> search(Map<String, Object> map)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return (List<Customer>) customerDao.search(SEARCH, new Object[] {map});
     }
 
     @Override
-    public boolean delete(Long id)
+    public boolean delete(final Long id)
     {
-        // TODO Auto-generated method stub
-        return false;
+        int flag =  customerDao.delete(DELETE, new Object[] {id});
+        return flag ==0 ? false : true;
     }
     
     

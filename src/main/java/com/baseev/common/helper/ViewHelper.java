@@ -32,4 +32,10 @@ public class ViewHelper
         map.put("data", data);
         return map;
     }
+
+    @Override
+    public String toString()
+    {
+        return "ViewHelper [status=" + status + ", data=" + data + "]";
+    }    
 }
